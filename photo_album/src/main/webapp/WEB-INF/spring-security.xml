@@ -1,34 +1,24 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:security="http://www.springframework.org/schema/security"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="
-        http://www.springframework.org/schema/beans 
-        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/mvc 
-        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-        http://www.springframework.org/schema/security
-        http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
 
-	<security:http>
-		<!-- <security:intercept-url pattern='/login.htm*' filters='none' /> -->
+	<http auto-config="true">
+		<intercept-url pattern="/welcome*" access="ROLE_USER" />
+		<form-login login-page="/login" default-target-url="/welcome"
+			authentication-failure-url="/loginfailed" />
+		<logout logout-success-url="/logout" />
+	</http>
 
-		<security:form-login login-page='/login.htm'
-			default-target-url='/index.htm' always-use-default-target='true'
-			authentication-failure-url="/login.htm?login_error=1" />
-		<security:intercept-url pattern="/**" filters="none" />
-		<security:logout logout-success-url="/login.htm" />
-	</security:http>
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder hash="sha" />
+			<user-service>
+				<user name="johndoe" password="6c074fa94c98638dfe3e3b74240573eb128b3d16" authorities="ROLE_USER" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
 
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:jdbc-user-service
-				data-source-ref="dataSource"
-				users-by-username-query="SELECT 
-				user_name as username, user_password as password, 1 as enabled FROM User WHERE user_name=?"
-				authorities-by-username-query="SELECT user_name as username, role as authority FROM User WHERE user_name=?" />
-		</security:authentication-provider>
-	</security:authentication-manager>
-</beans>
+</beans:beans>

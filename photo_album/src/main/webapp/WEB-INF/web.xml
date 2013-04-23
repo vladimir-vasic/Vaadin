@@ -20,8 +20,8 @@
     	<description>Album that contains pictures</description>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			/WEB-INF/photo_album-servlet.xml
-		    /WEB-INF/hibernate-context.xml
+			/WEB-INF/photo_album-servlet.xml,
+		    /WEB-INF/hibernate-context.xml,
             /WEB-INF/applicationContext.xml
 		</param-value>
 	</context-param>
