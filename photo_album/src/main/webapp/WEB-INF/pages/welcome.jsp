@@ -2,6 +2,7 @@
 <html>
 	<body>
     	<h1>Message : ${message}</h1>&nbsp;&nbsp;&nbsp;
-        <a href="<c:url value="/j_spring_security_logout" />" > Logout</a>  
+        <a href="<c:url value="/j_spring_security_logout" />" > Logout</a>
+        <a href="<c:url value="/app" />" > Vaadin</a>
 	</body>
 </html>
