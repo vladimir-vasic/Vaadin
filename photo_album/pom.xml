@@ -65,6 +65,11 @@
 			<artifactId>vaadin-themes</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
+	    <dependency>
+    	    <groupId>ru.xpoft.vaadin</groupId>
+        	<artifactId>spring-vaadin-integration</artifactId>
+        	<version>1.7.3</version>
+    	</dependency>
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -262,9 +267,9 @@
 								</modules> -->
 						</configuration>
 						<goals>
-<!-- 							<goal>resources</goal> -->
-<!-- 							<goal>update-widgetset</goal> -->
-<!-- 							<goal>compile</goal> -->
+							<goal>resources</goal>
+							<goal>update-widgetset</goal>
+							<goal>compile</goal>
 						</goals>
 					</execution>
 				</executions>
