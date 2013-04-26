@@ -54,4 +54,10 @@
 		<property name="maxUploadSize" value="500000" />
 	</bean>
 	
+	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+ 
+	<bean id="startupService" class="rs.codecentric.photo_album.services.StartupService">
+		<property name="message" value="Startup service initialization..." />
+	</bean>
+	
 </beans>

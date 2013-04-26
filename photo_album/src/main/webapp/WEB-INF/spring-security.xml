@@ -15,9 +15,22 @@
 
 	<authentication-manager>
 		<authentication-provider>
-			<user-service>
-				<user name="abc" password="123" authorities="ROLE_USER" />
-			</user-service>
+<!-- 			<user-service> -->
+<!-- 				<user name="abc" password="123" authorities="ROLE_USER" /> -->
+<!-- 			</user-service> -->
+		
+			<jdbc-user-service data-source-ref="dataSource"
+			   users-by-username-query="
+			      select username, password, enabled 
+			      from photo_album.users 
+			      where username = ?" 
+			   authorities-by-username-query="
+			      select u.username, a.authority 
+			      from photo_album.users u
+				  inner join photo_album.user_authorities ua on u.user_id = ua.user_id
+                  inner join photo_album.authorities a on a.id_authority = ua.id_authority
+			      where u.username = ?" 
+			/>
 		</authentication-provider>
 	</authentication-manager>
 

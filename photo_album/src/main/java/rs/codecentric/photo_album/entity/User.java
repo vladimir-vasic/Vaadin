@@ -31,7 +31,7 @@ import org.hibernate.annotations.LazyCollectionOption;
  * 
  */
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @NamedQueries({ 
 	@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u ORDER BY u.userId"),
 	@NamedQuery(name = "User.findPosibleFriends", query = "SELECT u FROM User u WHERE NOT u.userId = :userId AND NOT u IN (SELECT fr FROM User cur JOIN cur.friends fr WHERE cur.userId = :curUserId)")
@@ -45,12 +45,19 @@ public class User implements Serializable {
 	@Column(name = "user_id", unique = true, nullable = false)
 	private Long userId;
 
-	@Column(name = "user_name", unique = true, nullable = false)
+	@Column(name = "username", unique = true, nullable = false)
 	private String userName;
 
-	@Column(name = "user_password", unique = true, nullable = false)
+	@Column(name = "password", unique = true, nullable = false)
 	private String userPassword;
 
+	@Column(name = "enabled", nullable = false)
+	private Boolean enabled;
+
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinTable(name = "user_authorities", joinColumns = { @JoinColumn(name = "user_id")}, inverseJoinColumns={@JoinColumn(name="id_authority")})
+	private Set<Authority> authoritySet;
+	
 	@Column(name = "user_email", unique = true, nullable = false)
 	private String userEmail;
 
@@ -68,9 +75,6 @@ public class User implements Serializable {
 	@Column(name = "update_datetime")
 	private Date updateDateTime;
 	
-	@Column(name = "role")
-	private String role;
-
 	@ManyToMany(cascade={CascadeType.ALL})
     @JoinTable(name="user_friend", joinColumns={@JoinColumn(name="user_id")}, inverseJoinColumns={@JoinColumn(name="friend_id")})
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -102,6 +106,22 @@ public class User implements Serializable {
 
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Set<Authority> getAuthoritySet() {
+		return authoritySet;
+	}
+
+	public void setAuthoritySet(Set<Authority> authoritySet) {
+		this.authoritySet = authoritySet;
 	}
 
 	public String getUserEmail() {
@@ -144,14 +164,6 @@ public class User implements Serializable {
 		this.updateDateTime = updateDateTime;
 	}
 
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-	
 	public Set<User> getFriends() {
 		return friends;
 	}
@@ -170,8 +182,14 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", userPassword=" + userPassword + ", userEmail=" + userEmail + "]";
+		return "User [userId=" + userId + ", userName=" + userName
+				+ ", userPassword=" + userPassword + ", enabled=" + enabled
+				+ ", authoritySet has elements" + authoritySet.iterator().hasNext() + ", userEmail=" + userEmail
+				+ ", userLib=" + userLib + ", userAlbums=" + userAlbums
+				+ ", createDateTime=" + createDateTime + ", updateDateTime="
+				+ updateDateTime + ", friends has elements" + friends.iterator().hasNext()
+				+ ", teammates has elements" + teammates.iterator().hasNext() + "]";
 	}
-
+	
 }
 

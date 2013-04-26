@@ -1,19 +1,27 @@
 package rs.codecentric.photo_album.dao;
 
+import java.util.Date;
+import java.util.HashSet;
+
 import javax.annotation.Resource;
 import javax.persistence.NoResultException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import rs.codecentric.photo_album.entity.Authority;
 import rs.codecentric.photo_album.entity.User;
 
 @Repository("loginService")
 @Transactional
 public class LoginDAO implements ILoginDAO {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@Resource(name = "sessionFactory")
 	private SessionFactory sessionFactory;
 
@@ -27,6 +35,29 @@ public class LoginDAO implements ILoginDAO {
 			return user;
 		} catch (NoResultException e) {
 			return user;
+		}
+	}
+
+	public void insertInitialUser() {
+		log.info("Inserting initial user on application startup...");
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Authority auth = new Authority();
+			auth.setAuthority("ROLE_USER");
+			User user = new User();
+			user.setUserName("abc");
+			user.setUserPassword("123");
+			user.setEnabled(Boolean.TRUE);
+			user.setCreateDateTime(new Date());
+			user.setUserEmail("abc@gmail.com");
+			user.setUserLib("abc123");
+			HashSet<Authority> authHashSet = new HashSet<Authority>();
+			authHashSet.add(auth);
+			user.setAuthoritySet(authHashSet);
+			session.save(user);
+			log.info("Initial user saved.");
+		} catch (Exception exc) {
+			log.error("COULD NOT INSERT INITIAL USER !!!", exc);
 		}
 	}
 

@@ -11,7 +11,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @Component
-@Scope("prototype")
+@Scope("session")
 public class MyVaadinUI extends UI {
 
 	private static final long serialVersionUID = -1732049758205648248L;
