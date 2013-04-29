@@ -60,4 +60,6 @@
 		<property name="message" value="Startup service initialization..." />
 	</bean>
 	
+	<bean id="userAdminDAO" class="rs.codecentric.photo_album.dao.UserAdminDAO" />
+	
 </beans>

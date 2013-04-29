@@ -184,11 +184,10 @@ public class User implements Serializable {
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName
 				+ ", userPassword=" + userPassword + ", enabled=" + enabled
-				+ ", authoritySet has elements" + authoritySet.iterator().hasNext() + ", userEmail=" + userEmail
+				+ ", userEmail=" + userEmail
 				+ ", userLib=" + userLib + ", userAlbums=" + userAlbums
 				+ ", createDateTime=" + createDateTime + ", updateDateTime="
-				+ updateDateTime + ", friends has elements" + friends.iterator().hasNext()
-				+ ", teammates has elements" + teammates.iterator().hasNext() + "]";
+				+ updateDateTime +"]";
 	}
 	
 }

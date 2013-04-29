@@ -14,7 +14,7 @@ public interface IUserAdminDAO {
 	
 	public List<Album> getAllPictureAlbums4User(Long userId);
 	
-	public User loadUserByUsrPwd(String userName, String userPassword);
+	public User loadUserByUsername(String userName);
 	
 	public List<User> getAllUsers();
 	

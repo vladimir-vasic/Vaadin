@@ -65,13 +65,12 @@ public class UserAdminDAO implements IUserAdminDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public User loadUserByUsrPwd(String userName, String userPassword) {
+	public User loadUserByUsername(String userName) {
 		User retVal = null;
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM User pa WHERE pa.userName = :userName AND pa.userPassword = :userPassword";
+		String hql = "FROM User u WHERE u.userName = :userName";
 		List<User> userList = session.createQuery(hql)
 				.setParameter("userName", userName)
-				.setParameter("userPassword", userPassword)
 				.list();
 		if (userList != null && !userList.isEmpty()) {
 			retVal = userList.get(0);
