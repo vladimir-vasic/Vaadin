@@ -36,7 +36,6 @@ public class ComponentImage extends CustomComponent implements LayoutEvents {
 		final byte[] pictureContent = picture.getContent();
 		StreamSource streamSource = new StreamSource() {
 			private static final long serialVersionUID = -8024596230163700883L;
-			@Override
 			public InputStream getStream() {
 				 return new ByteArrayInputStream(pictureContent);
 			}

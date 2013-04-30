@@ -15,7 +15,6 @@ public class ViewAlbum extends VerticalLayout implements View {
 
 	private static final long serialVersionUID = -2361949976423525591L;
 
-	@Override
 	public void enter(ViewChangeEvent event) {
 
 		String parameters = event.getParameters();
@@ -38,7 +37,6 @@ public class ViewAlbum extends VerticalLayout implements View {
 
 				private static final long serialVersionUID = 4010312568756089212L;
 
-				@Override
 				public void layoutClick(LayoutEvents.LayoutClickEvent event) {
 					// TODO switch the view to a single album
 					if (event.getButton().equals(MouseButton.LEFT)) {

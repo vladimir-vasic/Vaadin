@@ -101,6 +101,8 @@ public class MyVaadinUI extends UI {
 			}
 		});
 		layout.addComponent(button);
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		log.info("LOGGED USER: {}", user);
 	}
 
 }
