@@ -1,5 +1,6 @@
 package rs.codecentric.photo_album.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -18,10 +19,12 @@ import rs.codecentric.photo_album.entity.User;
 
 @Repository("loginService")
 @Transactional
-public class LoginDAO implements ILoginDAO {
+public class LoginDAO implements ILoginDAO, Serializable {
+
+	private static final long serialVersionUID = 8913297868875802060L;
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Resource(name = "sessionFactory")
 	private SessionFactory sessionFactory;
 
@@ -39,26 +42,34 @@ public class LoginDAO implements ILoginDAO {
 	}
 
 	public void insertInitialUser() {
-		log.info("Inserting initial user on application startup...");
+		Session session = sessionFactory.getCurrentSession();
+		User user = null;
+		log.info("Trying to load initial user...");
 		try {
-			Session session = sessionFactory.getCurrentSession();
-			Authority auth = new Authority();
-			auth.setAuthority("ROLE_USER");
-			User user = new User();
-			user.setUserName("abc");
-			user.setUserPassword("123");
-			user.setEnabled(Boolean.TRUE);
-			user.setCreateDateTime(new Date());
-			user.setUserEmail("abc@gmail.com");
-			user.setUserLib("abc123");
-			HashSet<Authority> authHashSet = new HashSet<Authority>();
-			authHashSet.add(auth);
-			user.setAuthoritySet(authHashSet);
-			session.save(user);
-			log.info("Initial user saved.");
-		} catch (Exception exc) {
-			log.error("COULD NOT INSERT INITIAL USER !!!", exc);
+			user = (User) session.load(User.class, 1L);
+		} catch (Exception e) {
+			log.error("NO INITIAL USER!!!");
+		}
+		if (user == null) {
+			log.info("Inserting initial user on application startup...");
+			try {
+				Authority auth = new Authority();
+				auth.setAuthority("ROLE_USER");
+				user = new User();
+				user.setUserName("abc");
+				user.setUserPassword("123");
+				user.setEnabled(Boolean.TRUE);
+				user.setCreateDateTime(new Date());
+				user.setUserEmail("abc@gmail.com");
+				user.setUserLib("abc123");
+				HashSet<Authority> authHashSet = new HashSet<Authority>();
+				authHashSet.add(auth);
+				user.setAuthoritySet(authHashSet);
+				session.save(user);
+				log.info("Initial user saved.");
+			} catch (Exception exc) {
+				log.error("COULD NOT INSERT INITIAL USER !!!", exc);
+			}
 		}
 	}
-
 }

@@ -1,5 +1,6 @@
 package rs.codecentric.photo_album.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,9 @@ import rs.codecentric.photo_album.entity.User;
 @Repository("pictureAlbumService")
 // Default is read only
 @Transactional
-public class UserAdminDAO implements IUserAdminDAO {
+public class UserAdminDAO implements IUserAdminDAO, Serializable {
+
+	private static final long serialVersionUID = -2695260246931980131L;
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	

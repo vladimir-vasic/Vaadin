@@ -9,6 +9,6 @@
         <!-- Enable this to see the SQL statements in the logs -->
         <property name="hibernate.show_sql">true</property>
         <!-- This will drop our existing database and re-create a new one. Existing data will be deleted! -->
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
     </session-factory>
 </hibernate-configuration>
