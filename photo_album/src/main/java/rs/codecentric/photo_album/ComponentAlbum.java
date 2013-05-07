@@ -3,7 +3,7 @@ package rs.codecentric.photo_album;
 import rs.codecentric.photo_album.entity.Album;
 
 import com.vaadin.event.LayoutEvents;
-import com.vaadin.server.ThemeResource;
+import com.vaadin.server.ClassResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Image;
@@ -30,11 +30,11 @@ public class ComponentAlbum extends CustomComponent implements LayoutEvents {
 		mainLayout = new VerticalLayout();
 		setCompositionRoot(mainLayout);
 		mainLayout.setMargin(true);
-		mainLayout.addStyleName("layout-pointer"); // make it look as clickable
+		mainLayout.addStyleName("pointer"); // make it look as clickable
 
 		// Image as a resource
-		ThemeResource resource = new ThemeResource("icons/" + ALBUM_ICON_FILENAME);
-		mainLayout.addComponent(new Image("", resource)); // TODO: get the icon from the random image from the album
+		ClassResource resource = new ClassResource("/images/" + ALBUM_ICON_FILENAME);
+		mainLayout.addComponent(new Image("", resource));
 
 		// The title of the photo album
 		Label label = new Label(album.getAlbumName());

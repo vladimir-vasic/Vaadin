@@ -2,9 +2,6 @@ package rs.codecentric.photo_album;
 
 import java.util.List;
 
-import org.springframework.security.core.userdetails.User;
-
-import rs.codecentric.photo_album.dao.IUserAdminDAO;
 import rs.codecentric.photo_album.entity.Album;
 
 import com.vaadin.event.LayoutEvents;
@@ -39,10 +36,6 @@ public class ViewAlbums extends VerticalLayout implements View {
 	 */
 	public void enter(ViewChangeEvent event) {
 
-		final User user = MyVaadinUI.getCurrentUser();
-		final IUserAdminDAO userAdminDAO = MyVaadinUI.getCurrentUserDAO();
-		final rs.codecentric.photo_album.entity.User userEntity = userAdminDAO.loadUserByUsername(user.getUsername());
-
 		// main layout
 		VerticalLayout layoutMain = new VerticalLayout();
 		addComponent(layoutMain);
@@ -50,7 +43,7 @@ public class ViewAlbums extends VerticalLayout implements View {
 		final HorizontalLayout albumsLayout = new HorizontalLayout();
 
 		// TODO: welcome message, logout link
-		Label lblWelcomeMessage = new Label("Welcome, " + user.getUsername());
+		Label lblWelcomeMessage = new Label("Welcome, " + MyVaadinUI.getCurrentUser().getUserName());
 		layoutMain.addComponent(lblWelcomeMessage);
 
 		// text field and a button to create a new album
@@ -63,7 +56,7 @@ public class ViewAlbums extends VerticalLayout implements View {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				userAdminDAO.createAlbum4User(userEntity, tfAlbumName.getValue().toString());
+				MyVaadinUI.getCurrentUserDAO().createAlbum4User(MyVaadinUI.getCurrentUser(), tfAlbumName.getValue().toString());
 				displayUserAlbums(albumsLayout);
 				tfAlbumName.setValue("");
 			}
@@ -84,19 +77,17 @@ public class ViewAlbums extends VerticalLayout implements View {
 	 * Displays all albums for a current user
 	 */
 	private void displayUserAlbums(AbstractOrderedLayout layout) {
-		final User user = MyVaadinUI.getCurrentUser();
-		final IUserAdminDAO userAdminDAO = MyVaadinUI.getCurrentUserDAO();
-		final rs.codecentric.photo_album.entity.User userEntity = userAdminDAO.loadUserByUsername(user.getUsername());
-
 		layout.removeAllComponents();
 
-		List<Album> userAlbums = userAdminDAO.getAllPictureAlbums4User(userEntity.getUserId());
+		List<Album> userAlbums = MyVaadinUI.getCurrentUserDAO().getAllPictureAlbums4User(MyVaadinUI.getCurrentUser().getUserId());
 		if (!userAlbums.equals(null)) {
 			setMargin(true);
 
 			for (Album album : userAlbums) {
 				ComponentAlbum componentAlbum = new ComponentAlbum(album);
 				layout.addComponent(componentAlbum);
+
+				final Long albumId = album.getAlbumId();
 
 				// wrap the photo album icon + title into a clickable layout
 				componentAlbum.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
@@ -105,7 +96,7 @@ public class ViewAlbums extends VerticalLayout implements View {
 					public void layoutClick(LayoutEvents.LayoutClickEvent event) {
 						// TODO: switch the view to a single album view
 						if (event.getButton().equals(MouseButton.LEFT))
-							((MyVaadinUI)UI.getCurrent()).navigateTo("album");
+							((MyVaadinUI)UI.getCurrent()).navigateTo("album/" + String.valueOf(albumId));
 					}
 				});
 			}

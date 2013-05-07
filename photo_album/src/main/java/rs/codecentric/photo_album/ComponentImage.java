@@ -30,7 +30,7 @@ public class ComponentImage extends CustomComponent implements LayoutEvents {
 		mainLayout = new VerticalLayout();
 		setCompositionRoot(mainLayout);
 		mainLayout.setMargin(true);
-		mainLayout.addStyleName("layout-pointer"); // make it look as clickable
+		mainLayout.addStyleName("pointer"); // make it look as clickable
 
 		// Image as a resource
 		final byte[] pictureContent = picture.getContent();

@@ -61,5 +61,6 @@
 	</bean>
 	
 	<bean id="userAdminDAO" class="rs.codecentric.photo_album.dao.UserAdminDAO" />
+	<bean id="userController" class="rs.codecentric.photo_album.controller.UserController" />
 	
 </beans>
