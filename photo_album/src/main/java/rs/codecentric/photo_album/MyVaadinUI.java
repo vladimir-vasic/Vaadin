@@ -64,6 +64,15 @@ public class MyVaadinUI extends UI {
 		getNavigator().navigateTo(view);
 	}
 
+	public static User getCurrentUser() {
+		return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
+
+	public static IUserAdminDAO getCurrentUserDAO() {
+		SpringContextHelper helper = new SpringContextHelper(VaadinServlet.getCurrent().getServletContext());
+		return (IUserAdminDAO) helper.getBean("userAdminDAO");
+	}
+
 	@Override
 	protected void init(VaadinRequest request) {
 

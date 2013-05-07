@@ -52,6 +52,7 @@ public class UserAdminDAO implements IUserAdminDAO, Serializable {
 		Boolean retVal = Boolean.FALSE;
 		Album pictureAlbum = new Album();
 		pictureAlbum.setAlbumOwner(albumOwner);
+		pictureAlbum.setAlbumName(albumName);
 		session.save(pictureAlbum);
 		log.info("PICTURE ALBUM GOT ID: {}", pictureAlbum.getAlbumId());
 		retVal = Boolean.TRUE;
